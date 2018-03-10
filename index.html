@@ -24,7 +24,9 @@
             <!-- <img src="assets/images/baseball.jpg" alt="Baseball"> -->
             <button type="button" id="start-button" class="btn btn-info" onclick="playGame()">Guess a baseball word</button>
         </div>
-
+    </div>
+    <br>
+    <div class="container-fluid">
         <div>
             <button type="button" id="done-button" class="btn btn-info">I'm Out</button>
         </div>
@@ -38,48 +40,61 @@
         </p>
     </div>
 
+    <div>
+        <form name="inputForm">
+            Enter a letter:
+            <input type="text" name="inputLetter" maxlength="1" size="1">
+        </form>
+    </div>
 
-    <script>
-        let wordCount = 0;
-
-        function playGame() {
-
-            // select the next word for player to guess and increment counter for next play
-            let word = getWord(wordCount);
-            wordCount++;
+</body>
 
 
-            // display the word (for testing only)
-            document.getElementById("word").textContent = word;
+<script>
+    let wordCount = 0;
 
-            // change the button text for player to try again
+    let wordList = ["strikeout", "baseball", "error", "shortstop", "catcher", "foul line", "umpire",
+        "take me out to the ballgame", "double play", "washingtion nationals"
+    ];
 
-            document.getElementById("start-button").textContent = "Take another at bat";
+    function playGame() {
 
-            // format the input line with an _ for each leter in the word           
-            let wordDisplay = buildGuess(word);
+        // select the next word for player to guess and increment counter for next play
+        let word = wordList[wordCount];
 
-            // display the input line for the player to enter letters            
-            document.getElementById("guessInput").textContent = wordDisplay;
-        };
+        // display the word (for testing only)
+        document.getElementById("word").textContent = word;
 
-        // get a word from the word array
-        function getWord(index) {
-            let wordList = ["strikeout", "baseball", "error", "shortstop", "catcher", "foul line", "umpire",
-                "take me out to the ballgame", "strike three, you're out", "double play", "Washingtion Nationals"
-            ];
-            return wordList[index];
-        };
+        // change the button text for player to try again
 
-        // build the guess line with an _ for each letter in the word
-        function buildGuess(word) {
-            let wordDisplay = "";
-            for (i = 0; i < word.length; i++) {
-                wordDisplay = wordDisplay + " " + "_";
-            }
-            return wordDisplay
+        document.getElementById("start-button").textContent = "Take another at bat";
+
+        // format the input line with an _ for each leter in the word           
+        let wordDisplay = buildGuess(word);
+
+        // display the input line for the player to enter letters            
+        document.getElementById("guessInput").textContent = wordDisplay;
+
+        // what to do when gone thru the words
+        wordCount++;
+        if (wordCount > wordList.length) {
+            wordCount = 0;
         }
-    </script>
+    };
+
+    // build the guess line with an _ for each letter in the word
+    function buildGuess(word) {
+        let wordDisplay = "";
+        for (i = 0; i < word.length; i++) {
+            if (word.charAt(i) === " ") {
+                wordDisplay = wordDisplay.concat("  ");
+            } else {
+                wordDisplay = wordDisplay.concat("_ ");
+            }
+        }
+        return wordDisplay
+    }
+</script>
 
 
 
@@ -113,7 +128,7 @@
 
 
 
-    <!-- <div class="container-fluid">
+<!-- <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Rob Martin</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -179,14 +194,14 @@
     </div> -->
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

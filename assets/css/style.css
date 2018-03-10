@@ -1,5 +1,7 @@
 
-
+#guessInput {
+    white-space: pre;
+}
 .container .btn {
     position: absolute;
     top: 50%;
