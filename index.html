@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Basebal Word Guess</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+    <div class="container-fluid">
+        <div>
+            <!-- <img src="assets/images/baseball.jpg" alt="Baseball"> -->
+            <button type="button" id="start-button" class="btn btn-info" onclick="playGame()">Guess a baseball word</button>
+        </div>
+
+        <div>
+            <button type="button" id="done-button" class="btn btn-info">I'm Out</button>
+        </div>
+    </div>
+
+
+    <div id="guess">
+        <p id="word">aa</p>
+        <p>
+            <span id="guessInput"></span>
+        </p>
+    </div>
+
+
+    <script>
+        let wordCount = 0;
+
+        function playGame() {
+
+            // select the next word for player to guess and increment counter for next play
+            let word = getWord(wordCount);
+            wordCount++;
+
+
+            // display the word (for testing only)
+            document.getElementById("word").textContent = word;
+
+            // change the button text for player to try again
+
+            document.getElementById("start-button").textContent = "Take another at bat";
+
+            // format the input line with an _ for each leter in the word           
+            let wordDisplay = buildGuess(word);
+
+            // display the input line for the player to enter letters            
+            document.getElementById("guessInput").textContent = wordDisplay;
+        };
+
+        // get a word from the word array
+        function getWord(index) {
+            let wordList = ["strikeout", "baseball", "error", "shortstop", "catcher", "foul line", "umpire",
+                "take me out to the ballgame", "strike three, you're out", "double play", "Washingtion Nationals"
+            ];
+            return wordList[index];
+        };
+
+        // build the guess line with an _ for each letter in the word
+        function buildGuess(word) {
+            let wordDisplay = "";
+            for (i = 0; i < word.length; i++) {
+                wordDisplay = wordDisplay + " " + "_";
+            }
+            return wordDisplay
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Rob Martin</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav navbar-right ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">About
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-9">
+                <h1>About Me</h1>
+            </div>
+
+            <div class="card" style="width: 20rem;">
+               
+                <div class="card-block">
+                    <h4 class="card-title">Sidebar</h4>
+                    <p class="card-text">Sidebar content</p>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <img src="http://placehold.it/200x200">
+            </div>
+
+            <div class="col-md-5">
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+                    aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
+                    dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
+                    sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore
+                    magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+                    suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit
+                    qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
+                    voluptas nulla pariatur?</p>
+            </div>
+
+        </div>
+    </div> -->
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
