@@ -51,148 +51,66 @@
 
 
 <script>
-    let wordCount = 0;
+   
 
-    let wordList = ["strikeout", "baseball", "error", "shortstop", "catcher", "foul line", "umpire",
-        "take me out to the ballgame", "double play", "washingtion nationals"
-    ];
+        let wordCount = 0;
 
-    function playGame() {
 
-        // select the next word for player to guess and increment counter for next play
-        let word = wordList[wordCount];
+        let wordList = ["strikeout", "baseball", "error", "shortstop", "catcher", "foul line", "umpire",
+            "take me out to the ballgame", "double play", "washingtion nationals"
+        ];
 
-        // display the word (for testing only)
-        document.getElementById("word").textContent = word;
+        // build an array of the words with underscores. add additional space between multiple word answers for better readability
+        const wordDisplayArray = wordList.map(word => {
+            word = word.replace(/[ ]/g, '  ');
+            word = word.replace(/[a-zA-Z0-9]/g, '_ ');
+            return word;
+        });
 
-        // change the button text for player to try again
 
-        document.getElementById("start-button").textContent = "Take another at bat";
 
-        // format the input line with an _ for each leter in the word           
-        let wordDisplay = buildGuess(word);
+        function playGame() {
 
-        // display the input line for the player to enter letters            
-        document.getElementById("guessInput").textContent = wordDisplay;
 
-        // what to do when gone thru the words
-        wordCount++;
-        if (wordCount > wordList.length) {
-            wordCount = 0;
-        }
-    };
+            // display the word (for testing only)
+            document.getElementById("word").textContent = wordList[wordCount];
 
-    // build the guess line with an _ for each letter in the word
-    function buildGuess(word) {
-        let wordDisplay = "";
-        for (i = 0; i < word.length; i++) {
-            if (word.charAt(i) === " ") {
-                wordDisplay = wordDisplay.concat("  ");
-            } else {
-                wordDisplay = wordDisplay.concat("_ ");
+
+
+            // change the button text for player to try again. done one time after the initial button display 
+            if (wordCount === 0) {
+                $("#start-button").text("Take another at bat");
+            };
+
+
+
+            // display the input line for the player to enter letters            
+            $("#guessInput").text( wordDisplayArray[wordCount] );
+          
+
+            // what to do when gone thru the words
+            wordCount++;
+            if (wordCount > wordList.length) {
+                wordCount = 0;
             }
+        };
+
+        // build the guess line with an _ for each letter in the word
+        function buildGuess(word) {
+
+
+            // let wordDisplay = "";
+            // for (i = 0; i < word.length; i++) {
+            //     if (word.charAt(i) === " ") {
+            //         wordDisplay = wordDisplay.concat("  ");
+            //     } else {
+            //         wordDisplay = wordDisplay.concat("_ ");
+            //     }
+            // }
+            return wordDisplay
         }
-        return wordDisplay
-    }
+
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Rob Martin</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav navbar-right ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">About
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Portfolio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
-
-            </div>
-        </nav>
-    </div>
-
-
-    <div class="container-fluid">
-        <div class="row">
-
-            <div class="col-md-9">
-                <h1>About Me</h1>
-            </div>
-
-            <div class="card" style="width: 20rem;">
-               
-                <div class="card-block">
-                    <h4 class="card-title">Sidebar</h4>
-                    <p class="card-text">Sidebar content</p>
-
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-                <img src="http://placehold.it/200x200">
-            </div>
-
-            <div class="col-md-5">
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
-                    aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-                    dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
-                    sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore
-                    magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
-                    suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit
-                    qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-                    voluptas nulla pariatur?</p>
-            </div>
-
-        </div>
-    </div> -->
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
