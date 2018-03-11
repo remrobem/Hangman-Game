@@ -22,7 +22,8 @@
     <div class="container-fluid">
         <div>
             <!-- <img src="assets/images/baseball.jpg" alt="Baseball"> -->
-            <button type="button" id="start-button" class="btn btn-info" onclick="playGame()">Guess a baseball word</button>
+            <!-- <button type="button" id="start-button" class="btn btn-info" onclick="playGame()">Guess a baseball word</button> -->
+            <button type="button" id="start-button" class="btn btn-info" >Guess a baseball word</button>
         </div>
     </div>
     <br>
@@ -34,82 +35,111 @@
 
 
     <div id="guess">
-        <p id="word">aa</p>
+        <p id="word"></p>
         <p>
             <span id="guessInput"></span>
         </p>
     </div>
 
     <div>
-        <form name="inputForm">
+        <form name="inputForm" class="gameInfo" id="form">
             Enter a letter:
-            <input type="text" name="inputLetter" maxlength="1" size="1">
+            <input type="text" id="inputLetter" maxlength="1" size="1">
         </form>
+    </div>
+
+    <div>
+        <p class="gameInfo">Wrong letters guessed:
+            <span id="wrongGuess"></span>
+        </p>
     </div>
 
 </body>
 
 
 <script>
-   
+    // Initialize global variables
+    let wordCount = 0;
+    let input = "";
+    let wrongGuess = [];
 
-        let wordCount = 0;
+    // array of words for the user to guess
+    const wordList = ["strikeout", "glove", "error", "shortstop", "catcher", "foul", "umpire",
+        "outfield", "triple", "dugout"
+    ];
 
+    // build an array of the words with underscores.
+    const wordDisplayArray = wordList.map(word => {
+        word = word.toLowerCase().replace(/[a-z0-9]/g, '_');
+        return word;
+    });
 
-        let wordList = ["strikeout", "baseball", "error", "shortstop", "catcher", "foul line", "umpire",
-            "take me out to the ballgame", "double play", "washingtion nationals"
-        ];
-
-        // build an array of the words with underscores. add additional space between multiple word answers for better readability
-        const wordDisplayArray = wordList.map(word => {
-            word = word.replace(/[ ]/g, '  ');
-            word = word.replace(/[a-zA-Z0-9]/g, '_ ');
-            return word;
-        });
-
-
-
-        function playGame() {
-
-
-            // display the word (for testing only)
-            document.getElementById("word").textContent = wordList[wordCount];
+    // hide inputs until play button clicked
+    $(".gameInfo").hide();
 
 
+$("#start-button").on("click", playGame);
 
-            // change the button text for player to try again. done one time after the initial button display 
-            if (wordCount === 0) {
-                $("#start-button").text("Take another at bat");
-            };
+// play the game
+    function playGame() {
+
+        // display the word (for testing only)
+        document.getElementById("word").textContent = wordList[wordCount];
+
+        let word = wordList[wordCount];
+        let displayLine = wordDisplayArray[wordCount];
+
+        // change the button text for player to try again. done one time after the initial button display 
+        if (wordCount === 0) {
+            $("#start-button").text("Take another at bat");
+            $(".gameInfo").show();
+        };
+
+        // display the input line for the player to enter letters            
+        // $("#guessInput").text(wordDisplayArray[wordCount]);
+        $("#guessInput").text(displayLine);
 
 
+// handle player input
+        $("#inputLetter").on("keyup", (function (e) {
+            input = $(this).val();
+            input = input.toLowerCase();
+            $('#form').trigger("reset");
 
-            // display the input line for the player to enter letters            
-            $("#guessInput").text( wordDisplayArray[wordCount] );
-          
+            let letterIndex = 0;
+            let letterMatch = 0;
+            let tempLine = " ";
 
-            // what to do when gone thru the words
-            wordCount++;
+            letterIndex = word.indexOf(input, letterIndex);
+
+            if (letterIndex === -1) {
+                wrongGuess.push(input);
+                $("#wrongGuess").text(wrongGuess);
+            } else {
+
+                do {
+                    console.log(letterIndex, letterMatch);
+                    displayLine = replaceAt(displayLine, letterIndex, input);
+                    letterIndex++;
+                    letterIndex = word.indexOf(input, letterIndex);
+                } while (letterIndex > -1);
+                $("#guessInput").text(displayLine);
+            }
+            // ************* what to do when gone thru the words?????
+            // wordCount++;
+            // word = wordList[wordCount];
+
+
             if (wordCount > wordList.length) {
                 wordCount = 0;
             }
-        };
+        }));
 
-        // build the guess line with an _ for each letter in the word
-        function buildGuess(word) {
-
-
-            // let wordDisplay = "";
-            // for (i = 0; i < word.length; i++) {
-            //     if (word.charAt(i) === " ") {
-            //         wordDisplay = wordDisplay.concat("  ");
-            //     } else {
-            //         wordDisplay = wordDisplay.concat("_ ");
-            //     }
-            // }
-            return wordDisplay
+        function replaceAt(string, index, replace) {
+            return string.substring(0, index) + replace + string.substring(index + 1);
         }
 
+    };
 </script>
 
 <!-- Optional JavaScript -->
