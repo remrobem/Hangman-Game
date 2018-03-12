@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Basebal Word Guess</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+    <div class="container-fluid">
+        <div>
+            <!-- <img src="assets/images/baseball.jpg" alt="Baseball"> -->
+            <!-- <button type="button" id="start-button" class="btn btn-info" onclick="playGame()">Guess a baseball word</button> -->
+            <button type="button" id="start-button" class="btn btn-info">Guess a baseball word</button>
+        </div>
+    </div>
+    <br>
+    <div class="container-fluid">
+        <div>
+            <button type="button" id="done-button" class="gameInfo btn btn-info" onClick="window.location.reload()">Take me out of the game, Coach.</button>
+        </div>
+    </div>
+
+
+    <div id="guess">
+        <p id="word"></p>
+        <p>
+            <span id="guessInput"></span>
+        </p>
+    </div>
+
+    <div>
+        <form name="inputForm" class="gameInfo" id="form">
+            Enter a letter:
+            <input type="text" id="inputLetter" maxlength="1" size="1">
+        </form>
+    </div>
+
+    <div>
+        <p class="gameInfo">Wrong letters guessed:
+            <span id="wrongGuess"></span>
+        </p>
+    </div>
+
+</body>
+
+
+<script>
+    // Initialize global variables
+    let wordCount = 0;
+    let input = "";
+    let wrongGuess = [];
+
+    // array of words for the user to guess
+    const wordList = ["strikeout", "glove", "error", "shortstop", "catcher", "foul", "umpire",
+        "outfield", "triple", "dugout"
+    ];
+
+    // build an array of the words with underscores.
+    const wordDisplayArray = wordList.map(word => {
+        word = word.toLowerCase().replace(/[a-z0-9]/g, '_');
+        return word;
+    });
+
+    // hide inputs until play button clicked
+    $(".gameInfo").hide();
+
+
+    $("#start-button").on("click", playGame);
+
+
+
+
+    // play the game
+    function playGame() {
+
+        // display the word (for testing only)
+        document.getElementById("word").textContent = wordList[wordCount];
+
+        let word = wordList[wordCount];
+        let displayLine = wordDisplayArray[wordCount];
+
+        // change the button text for player to try again. done one time after the initial button display
+        if (wordCount === 0) {
+            // $("#start-button").text("Take another at bat");
+            $("#start-button").hide();
+            $(".gameInfo").show();
+        }
+
+        // set evenet listener for the button to end the game and reload the page
+        // const restart = document.getElementById("#done-button");
+        // restart.onclick = function (e) {
+        //     document.location.reload();
+        // }
+
+        if (wordCount > wordList.length) {
+            wordCount = 0;
+        }
+
+        // display the input line for the player to enter letters            
+        // $("#guessInput").text(wordDisplayArray[wordCount]);
+        $("#guessInput").text(displayLine);
+
+
+        // handle player input
+        $("#inputLetter").on("keyup", (function (e) {
+            input = $(this).val(); /* get user input value, force to lowercase and clear the input */
+            input = input.toLowerCase();
+            $('#form').trigger("reset");
+
+            // initialize variables
+            let letterIndex = 0;
+            let letterMatch = 0;
+            let tempLine = " ";
+
+            // Look for input letter in the word to guess
+            letterIndex = word.indexOf(input, letterIndex);
+
+            // if the letter is not found, display in the not found array
+            if (letterIndex === -1) {
+                wrongGuess.push(input);
+                $("#wrongGuess").text(wrongGuess);
+            } else {
+                // if the letter is found, then a do/while loop to find any other occurances and show them in the word 
+                do {
+                    console.log(letterIndex, letterMatch);
+                    displayLine = replaceAt(displayLine, letterIndex, input);
+                    letterIndex++;
+                    letterIndex = word.indexOf(input, letterIndex);
+                } while (letterIndex > -1);
+                $("#guessInput").text(displayLine);
+            }
+            // check to see if any _ left to be guessed
+            letterIndex = displayLine.indexOf("_");
+            if (letterIndex === -1) {
+
+                // increment the index used to get the next word 
+                // ************* what to do when gone thru the words?????
+                wordCount++;
+                word = wordList[wordCount];
+
+
+
+            };
+
+        }));
+
+        function replaceAt(string, index, replace) {
+            return string.substring(0, index) + replace + string.substring(index + 1);
+        }
+
+    };
+</script>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
