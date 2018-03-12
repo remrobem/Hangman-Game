@@ -40,36 +40,31 @@
 		</div>
 	</div>
 
-	<div id="playArea">
-		<div id="guess">
-			<p class="gameInfo" id="word"></p>
-			<p>
-				<span id="guessInput"></span>
-			</p>
-		</div>
 
-		<div id="currentPlayInfo">
-			<div>
-				<form name="inputForm" class="gameInfo" id="form">
-					Enter a letter:
-					<input type="text" id="inputLetter" maxlength="1" size="1">
-				</form>
-			</div>
+	<div id="guess">
+		<p class="gameInfo" id="word"></p>
+		<p>
+			<span id="guessInput"></span>
+		</p>
+	</div>
 
-			<div>
-				<p class="gameInfo">Wrong letters guessed:
-					<span id="wrongGuess"></span>
-				</p>
-			</div>
-		</div>
+	<div>
+		<form name="inputForm" class="gameInfo" id="form">
+			Enter a letter:
+			<input type="text" id="inputLetter" maxlength="1" size="1">
+		</form>
+	</div>
 
-		<div>
-			<p id="winner" class="gameInfo">Winner, winner, chicken dinner this many times:
+	<div>
+		<p class="gameInfo">Wrong letters guessed:
+			<span id="wrongGuess"></span>
+		</p>
+	</div>
+	<div>
+			<p  class="gameInfo" >Winner, winner, chicken dinner this many times:
 				<span id="wins">0</span>
 			</p>
 		</div>
-
-	</div>
 
 </body>
 
@@ -83,7 +78,7 @@
 
 	// array of words for the user to guess
 	const wordList = ["strikeout", "glove", "error", "shortstop", "catcher", "foul", "umpire",
-		"take me out to the ballpark", "triple", "dugout"
+		"outfield", "triple", "dugout"
 	];
 
 	// build an array of the words with underscores.
@@ -99,17 +94,14 @@
 	let displayLine = wordDisplayArray[wordCount];
 
 	// hide inputs until play button clicked
+	$(".gameInfo").hide();
+	$("#continue-button").hide();
 
-	document.getElementById("continue-button").style.visibility = "hidden";
-	document.getElementById("restart-button").style.visibility = "hidden";
-	document.getElementById("playArea").style.visibility = "hidden";
 
 	//event listners for buttons
-	let startButton = document.getElementById("start-button");
-	let continueButton = document.getElementById("continue-button");
+	$("#start-button").on("click", playGame);
+	$("#continue-button").on("click", continueGame);
 
-	startButton.addEventListener("click", playGame);
-	continueButton.addEventListener("click", continueGame);
 
 	function continueGame() {
 
@@ -136,19 +128,12 @@
 	function playGame() {
 
 		setGameDisplay();
-		let inputLetter = document.getElementById("inputLetter");
-		inputLetter.addEventListener("keyup", playerGuess);
 
-		
-	};
-
-	function playerGuess(e) {
-
-	// handle player input
-		    input = e.key;
+		// handle player input
+		$("#inputLetter").on("keyup", (function (e) {
+			input = $(this).val(); /* get user input value, force to lowercase and clear the input */
 			input = input.toLowerCase();
-		// clear the input field
-			document.getElementById("form").reset();
+			$('#form').trigger("reset");
 
 			// initialize variables
 			let letterIndex = 0;
@@ -161,8 +146,7 @@
 			// if the letter is not found, display in the not found array
 			if (letterIndex === -1) {
 				wrongGuess.push(input);
-
-				document.getElementById("wrongGuess").textContent = wrongGuess;
+				$("#wrongGuess").text(wrongGuess);
 			} else {
 				// if the letter is found, then a do/while loop to find any other occurances and show them in the word 
 				do {
@@ -173,7 +157,7 @@
 				} while (letterIndex > -1);
 
 				// update the word display line with the correctly guessed letter
-				document.getElementById("guessInput").textContent = displayLine;
+				$("#guessInput").text(displayLine);
 			}
 			// check to see if any _ left to be guessed
 			letterIndex = displayLine.indexOf("_");
@@ -181,28 +165,26 @@
 			// winner, winner, chicken dinner
 			if (letterIndex === -1) {
 				console.log('here');
-				document.getElementById("currentPlayInfo").style.visibility = "hidden";
-				document.getElementById("continue-button").style.visibility = "visible";
+				$("#continue-button").show();
+				$("#start-button").hide();
 				wins++;
-				document.getElementById("wins").textContent = wins;
+				$("#wins").text(wins);
 			};
-	
+
+		}));
+
+		console.log("out of keyup");
+
 	};
 
 	function setGameDisplay() {
 		//change buttons and data displyed on screen when game starts
-
-		document.getElementById("start-button").style.visibility = "hidden";
-		document.getElementById("continue-button").style.visibility = "hidden";
-
-		document.getElementById("restart-button").style.visibility = "visible";
-		document.getElementById("playArea").style.visibility = "visible";
-		document.getElementById("currentPlayInfo").style.visibility = "visible";
+		$("#start-button").hide();
+		$("#continue-button").hide();
+		$(".gameInfo").show();
 
 		// show the word dispay line - all _ at this point
-		document.getElementById("guessInput").textContent = displayLine;
-		document.getElementById("wrongGuess").textContent = "";
-		wrongGuess = [];
+		$("#guessInput").text(displayLine);
 
 	};
 
