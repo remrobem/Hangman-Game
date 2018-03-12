@@ -42,7 +42,7 @@
 
 
 	<div id="guess">
-		<p id="word"></p>
+		<p class="gameInfo" id="word"></p>
 		<p>
 			<span id="guessInput"></span>
 		</p>
@@ -60,6 +60,11 @@
 			<span id="wrongGuess"></span>
 		</p>
 	</div>
+	<div>
+			<p  class="gameInfo" >Winner, winner, chicken dinner this many times:
+				<span id="wins">0</span>
+			</p>
+		</div>
 
 </body>
 
@@ -69,6 +74,7 @@
 	let wordCount = 0;
 	let input = "";
 	let wrongGuess = [];
+	let wins = 0;
 
 	// array of words for the user to guess
 	const wordList = ["strikeout", "glove", "error", "shortstop", "catcher", "foul", "umpire",
@@ -92,6 +98,7 @@
 	$("#continue-button").hide();
 
 
+	//event listners for buttons
 	$("#start-button").on("click", playGame);
 	$("#continue-button").on("click", continueGame);
 
@@ -110,7 +117,12 @@
 
 		setGameDisplay();
 
+
+		// display the word (for testing only)
+		document.getElementById("word").textContent = wordList[wordCount];
+
 	}
+
 
 	// play the game
 	function playGame() {
@@ -155,11 +167,13 @@
 				console.log('here');
 				$("#continue-button").show();
 				$("#start-button").hide();
+				wins++;
+				$("#wins").text(wins);
 			};
 
 		}));
 
-
+		console.log("out of keyup");
 
 	};
 
