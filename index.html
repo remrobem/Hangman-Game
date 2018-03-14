@@ -11,214 +11,64 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	    crossorigin="anonymous">
 	<link rel="stylesheet" href="assets/css/style.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 
 
 </head>
 
 <body>
+	<div class="jumbotron jumbotron-fluid">
+		<div class="container-fluid">
+			<h1 class="display-1">Play Ball!</h1>
+			<br>
+			<br>
+			<p class="lead">Lets see if you if you have the tools to guess some baseball words</p>
 
-
-	<div class="container-fluid">
-		<div>
-			<!-- <img src="assets/images/baseball.jpg" alt="Baseball"> -->
-			<!-- <button type="button" id="start-button" class="btn btn-info" onclick="playGame()">Guess a baseball word</button> -->
 			<button type="button" id="start-button" class="btn btn-info">Guess a baseball word</button>
 
-		</div>
-	</div>
-	<br>
-	<div class="container-fluid">
-		<div>
-			<button type="button" id="continue-button" class="btn btn-info">Give me another at bat</button>
-		</div>
-	</div>
-	<br>
-	<div class="container-fluid">
-		<div>
-			<button type="button" id="restart-button" class="gameInfo btn btn-info" onClick="window.location.reload()">Take me out of the game, Coach.</button>
-		</div>
-	</div>
-
-	<div id="playArea">
-		<div id="guess">
-			<p class="gameInfo" id="word"></p>
-			<p>
-				<span id="guessInput"></span>
-			</p>
-		</div>
-
-		<div id="currentPlayInfo">
 			<div>
-				<form name="inputForm" class="gameInfo" id="form">
-					Enter a letter:
-					<input type="text" id="inputLetter" maxlength="1" size="1">
-				</form>
+				<button type="button" id="continue-button" class="btn btn-info">Give me another at bat</button>
 			</div>
+			<br>
+			<br>
 
 			<div>
-				<p class="gameInfo">Wrong letters guessed:
-					<span id="wrongGuess"></span>
+				<button type="button" id="restart-button" class="gameInfo btn btn-info" onClick="window.location.reload()">Take me out of the game, Coach.</button>
+			</div>
+		</div>
+
+		<div id="playArea" class="container-fluid">
+			<div id="guess">
+				<p class="gameInfo" id="word"></p>
+				<p>
+					<span id="guessInput"></span>
 				</p>
 			</div>
-		</div>
 
-		<div>
-			<p id="winner" class="gameInfo">Winner, winner, chicken dinner this many times:
-				<span id="wins">0</span>
-			</p>
-		</div>
+			<div id="currentPlayInfo">
+				<div>
+					<form name="inputForm" class="gameInfo" id="form">
+						Enter a letter:
+						<input type="text" id="inputLetter" maxlength="1" size="1">
+					</form>
 
+					<p class="gameInfo">Wrong letters guessed:
+						<span id="wrongGuess"></span>
+					</p>
+				</div>
+			</div>
+
+			<div>
+				<p id="winner" class="gameInfo">Winner, winner, chicken dinner:
+					<span id="wins">0</span>
+				</p>
+			</div>
+
+		</div>
 	</div>
 
-</body>
+	<script src="assets/javascript/game.js"></script>
 
-
-<script>
-	// Initialize global variables
-	let wordCount = 0;
-	let input = "";
-	let wrongGuess = [];
-	let wins = 0;
-
-	// array of words for the user to guess
-	const wordList = ["strikeout", "glove", "error", "shortstop", "catcher", "foul", "umpire",
-		"take me out to the ballpark", "triple", "dugout"
-	];
-
-	// build an array of the words with underscores.
-	const wordDisplayArray = wordList.map(word => {
-		word = word.toLowerCase().replace(/[a-z0-9]/g, '_');
-		return word;
-	});
-
-	// display the word (for testing only)
-	document.getElementById("word").textContent = wordList[wordCount];
-
-	let word = wordList[wordCount];
-	let displayLine = wordDisplayArray[wordCount];
-
-	// hide inputs until play button clicked
-
-	document.getElementById("continue-button").style.visibility = "hidden";
-	document.getElementById("restart-button").style.visibility = "hidden";
-	document.getElementById("playArea").style.visibility = "hidden";
-
-	//event listners for buttons
-	let startButton = document.getElementById("start-button");
-	let continueButton = document.getElementById("continue-button");
-
-	startButton.addEventListener("click", playGame);
-	continueButton.addEventListener("click", continueGame);
-
-	function continueGame() {
-
-		wordCount++;
-		if (wordCount > wordList.length) {
-			wordCount = 0;
-		};
-
-		word = wordList[wordCount];
-		displayLine = wordDisplayArray[wordCount];
-		input = "";
-		wrongGuess = [];
-
-		setGameDisplay();
-
-
-		// display the word (for testing only)
-		document.getElementById("word").textContent = wordList[wordCount];
-
-	}
-
-
-	// play the game
-	function playGame() {
-
-		setGameDisplay();
-		let inputLetter = document.getElementById("inputLetter");
-		inputLetter.addEventListener("keyup", playerGuess);
-
-		
-	};
-
-	function playerGuess(e) {
-
-	// handle player input
-		    input = e.key;
-			input = input.toLowerCase();
-		// clear the input field
-			document.getElementById("form").reset();
-
-			// initialize variables
-			let letterIndex = 0;
-			let letterMatch = 0;
-			let tempLine = " ";
-
-			// Look for input letter in the word to guess
-			letterIndex = word.indexOf(input, letterIndex);
-
-			// if the letter is not found, display in the not found array
-			if (letterIndex === -1) {
-				wrongGuess.push(input);
-
-				document.getElementById("wrongGuess").textContent = wrongGuess;
-			} else {
-				// if the letter is found, then a do/while loop to find any other occurances and show them in the word 
-				do {
-					console.log(letterIndex, letterMatch);
-					displayLine = replaceAt(displayLine, letterIndex, input);
-					letterIndex++;
-					letterIndex = word.indexOf(input, letterIndex);
-				} while (letterIndex > -1);
-
-				// update the word display line with the correctly guessed letter
-				document.getElementById("guessInput").textContent = displayLine;
-			}
-			// check to see if any _ left to be guessed
-			letterIndex = displayLine.indexOf("_");
-
-			// winner, winner, chicken dinner
-			if (letterIndex === -1) {
-				console.log('here');
-				document.getElementById("currentPlayInfo").style.visibility = "hidden";
-				document.getElementById("continue-button").style.visibility = "visible";
-				wins++;
-				document.getElementById("wins").textContent = wins;
-			};
-	
-	};
-
-	function setGameDisplay() {
-		//change buttons and data displyed on screen when game starts
-
-		document.getElementById("start-button").style.visibility = "hidden";
-		document.getElementById("continue-button").style.visibility = "hidden";
-
-		document.getElementById("restart-button").style.visibility = "visible";
-		document.getElementById("playArea").style.visibility = "visible";
-		document.getElementById("currentPlayInfo").style.visibility = "visible";
-
-		// show the word dispay line - all _ at this point
-		document.getElementById("guessInput").textContent = displayLine;
-		document.getElementById("wrongGuess").textContent = "";
-		wrongGuess = [];
-
-	};
-
-	function replaceAt(string, index, replace) {
-		return string.substring(0, index) + replace + string.substring(index + 1);
-	}
-</script>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script> -->
 </body>
 
 </html>

@@ -1,15 +1,53 @@
-
-
-
-html { 
-    background: url("../images/background.jpg") no-repeat center center fixed; 
+html {
+    /* background: url("../images/background.jpg") no-repeat center center fixed;  */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-  }
+}
+
+.jumbotron {
+    position: relative;
+    background-image: url("../images/background.jpg");
+    background-size: cover;
+    min-height: 100vh;
+    /* padding-top: 30%; */
+    /* padding-bottom: 5%; */
+}
+
+.display-1,
+.lead {
+    color: white;
+}
+
+#playArea {
+    color: red;
+    position: relative;
+    padding-left: 5em;
+    font-size: 20px;
+}
+
+#guessInput {
+    color: red;
+    background-color: wheat;
+    letter-spacing: 1em;
+    font-size: 3em;
+}
+
+#wrongGuess {
+    color: red;
+    background-color: wheat;
+    letter-spacing: 1em;
+    font-size: 1em;
+
+}
 #guessInput {
     white-space: pre;
+}
+
+#winner {
+    color: red;
+    font-weight: bolder; 
 }
 .container .btn {
     position: absolute;
