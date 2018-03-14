@@ -4,20 +4,6 @@ let input = "";
 let wrongGuess = [];
 let wins = 0;
 
-//load audio 
-var audioElementMiss = document.createElement("audio");
-audioElementMiss.setAttribute("src", "assets/audio/Disapointed Crowd Oh.mp3");
-//audioElementMiss.play();
-
-
-var audioElementLeave = document.createElement("audio");
-audioElementLeave.setAttribute("src", "assets/audio/nocurve.mp3");
-//audioElementLeave.play();
-
-var audioElementHit = document.createElement("audio");
-audioElementHit.setAttribute("src", "assets/audio/nocurve.mp3");
-//audioElementHit.play();
-
 // array of words for the user to guess
 const wordList = ["strikeout", "glove", "error", "shortstop", "catcher", "foul", "umpire",
     "take me out to the ballpark", "triple", "dugout"
@@ -90,7 +76,12 @@ function playerGuess(e) {
     if (letterIndex === -1) {
         wrongGuess.push(input);
         document.getElementById("wrongGuess").textContent = wrongGuess;
+        // annoying audio for miss
+        var audioElementMiss = document.createElement("audio");
+        audioElementMiss.setAttribute("src", "assets/audio/Disapointed Crowd Oh.mp3");
         audioElementMiss.play();
+
+
     } else {
         // if the letter is found, then a do/while loop to find any other occurances and show them in the word 
         do {
@@ -113,6 +104,11 @@ function playerGuess(e) {
         document.getElementById("continue-button").style.visibility = "visible";
         wins++;
         document.getElementById("wins").textContent = wins;
+
+        //audio for win
+        var audioElementHit = document.createElement("audio");
+        audioElementHit.setAttribute("src", "assets/audio/hitcrowdcheer.mp3");
+        audioElementHit.play();
     };
 
 };

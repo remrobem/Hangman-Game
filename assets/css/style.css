@@ -1,5 +1,4 @@
 html {
-    /* background: url("../images/background.jpg") no-repeat center center fixed;  */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -11,8 +10,7 @@ html {
     background-image: url("../images/background.jpg");
     background-size: cover;
     min-height: 100vh;
-    /* padding-top: 30%; */
-    /* padding-bottom: 5%; */
+    margin-bottom: 0;
 }
 
 .display-1,
@@ -39,16 +37,17 @@ html {
     background-color: wheat;
     letter-spacing: 1em;
     font-size: 1em;
-
 }
+
 #guessInput {
     white-space: pre;
 }
 
 #winner {
     color: red;
-    font-weight: bolder; 
+    font-weight: bolder;
 }
+
 .container .btn {
     position: absolute;
     top: 50%;
